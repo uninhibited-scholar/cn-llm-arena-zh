@@ -1,0 +1,3 @@
+[
+ {"name":"deepseek-v4-pro","base_url":"https://api.example.com/v1","model_id":"<your-model-id>","api_key_env":"OPENAI_API_KEY"}
+]
