@@ -26,6 +26,12 @@
 | 函数调用 | [zh-function-calling-bench](https://github.com/uninhibited-scholar/zh-function-calling-bench) | 简体原生工具调用：函数名+参数+该不该调 |
 | Agent 安全 | [agent-safety-bench-zh](https://github.com/uninhibited-scholar/agent-safety-bench-zh) | 危险工具调用/注入该不该拦 |
 | 防御误拒 | [defensive-refusal-bench-zh](https://github.com/uninhibited-scholar/defensive-refusal-bench-zh) | 正当防御问题是否被误拒（安全×可用） |
+| 中文诈骗识别 | [fraud-detect-bench-zh](https://github.com/uninhibited-scholar/fraud-detect-bench-zh) | 短信/口语/二维码/AI话术是否为诈骗+哪类（单轮，已接入本 harness） |
+| 长任务状态追踪 | [agent-endurance-bench](https://github.com/uninhibited-scholar/agent-endurance-bench) | 50–500 步累积对话里记规则/算账/抗干扰（多轮，用其自带 runner） |
+| 多轮记忆一致性 | [memory-consistency-bench-zh](https://github.com/uninhibited-scholar/memory-consistency-bench-zh) | 长距离 recall / 改口更新 / absent 幻觉（多轮，用其自带 runner） |
+
+## 已接入的 7 个基准
+本 harness（单轮）已聚合 5 个：attack / function-calling / agent-safety / defensive-refusal / **fraud-detect**。另 2 个为多轮基准（endurance / memory），因单次问答框架不适配多轮累积回放，用其仓库自带 `run_model.py` 运行，结果在各自 README 榜单，本表以维度链接聚合。
 
 ## 复现
 ```bash
