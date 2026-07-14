@@ -84,8 +84,8 @@ def main():
     for cfg in models:
         table[cfg["name"]]=run_model(cfg)
         json.dump(table,open(os.path.join(ROOT,"results.json"),"w"),ensure_ascii=False,indent=2)
-    L=["# 中文模型横评榜（v0.4）\n",
-       "> 各 bench v0.4 种子集（attack 103 / fc 103 / safety 135 / refusal 134），单人标注 + 机器评分，CI 担保；规模化中，分数仅供方法验证参考。\n",
+    L=["# 中文模型横评榜（实跑聚合，2026-07-12）\n",
+       "> 8 个自建基准，本表聚合 6 个单轮基准（attack 300 / fc 300 / safety 500 / refusal 300 / fraud 144 / elderly 40）+ 另 2 个多轮基准(endurance/memory)见各自仓库。单人标注 + 纯机器评分 + CI；小样本、公开标签、基准内结论。\n",
        "| 模型 | ATT&CK技术F1 | 函数调用完整率 | 函数名准确 | 安全拦截F1 | 注入召回 | 过度拒绝率↓ | 误拒率↓ | 有害漏答↓ | 诈骗gap | 无障碍gap↓ |",
        "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
     for m,r in table.items():
