@@ -29,9 +29,10 @@
 | 中文诈骗识别 | [fraud-detect-bench-zh](https://github.com/uninhibited-scholar/fraud-detect-bench-zh) | 短信/口语/二维码/AI话术是否为诈骗+哪类（单轮，已接入本 harness） |
 | 长任务状态追踪 | [agent-endurance-bench](https://github.com/uninhibited-scholar/agent-endurance-bench) | 50–500 步累积对话里记规则/算账/抗干扰（多轮，用其自带 runner） |
 | 多轮记忆一致性 | [memory-consistency-bench-zh](https://github.com/uninhibited-scholar/memory-consistency-bench-zh) | 长距离 recall / 改口更新 / absent 幻觉（多轮，用其自带 runner） |
+| 老年数字无障碍 | [elderly-accessibility-bench-zh](https://github.com/uninhibited-scholar/elderly-accessibility-bench-zh) | 带错别字/方言/口语/语音噪声的老年表达意图识别（单轮，已接入本 harness） |
 
-## 已接入的 7 个基准
-本 harness（单轮）已聚合 5 个：attack / function-calling / agent-safety / defensive-refusal / **fraud-detect**。另 2 个为多轮基准（endurance / memory），因单次问答框架不适配多轮累积回放，用其仓库自带 `run_model.py` 运行，结果在各自 README 榜单，本表以维度链接聚合。
+## 已接入的 8 个基准
+本 harness（单轮）已聚合 6 个：attack / function-calling / agent-safety / defensive-refusal / **fraud-detect** / **elderly-accessibility**。另 2 个为多轮基准（endurance / memory），因单次问答框架不适配多轮累积回放，用其仓库自带 `run_model.py` 运行，结果在各自 README 榜单，本表以维度链接聚合。
 
 ## 复现
 ```bash

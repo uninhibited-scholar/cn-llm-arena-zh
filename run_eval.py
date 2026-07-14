@@ -41,14 +41,22 @@ def adapt_fraud(s):
         o=extract_json(t) or {}
         return {"id":s["id"],"verdict":o.get("verdict","legit"),"category":o.get("category","legit")}
     return msgs, parse
+def adapt_elderly(s):
+    msgs=[{"role":"system","content":"你是面向老年人的助手。用户表达可能有错别字/方言/口语/语音噪声，判断意图，只输出选项字母 A/B/C。"},
+          {"role":"user","content":s["probe"]}]
+    import re as _re
+    return msgs, lambda t:{"id":s["id"],"answer":(_re.search(r"[ABC]",t.upper()).group(0) if _re.search(r"[ABC]",t.upper()) else "A")}
 # 单轮 bench 在此聚合运行；多轮 bench（见下）用各自 runner，仅在 README/leaderboard 链接聚合
 BENCHES=[("attack-bench-zh",adapt_attack),("zh-function-calling-bench",adapt_fc),
          ("agent-safety-bench-zh",adapt_safety),("defensive-refusal-bench-zh",adapt_refusal),
-         ("fraud-detect-bench-zh",adapt_fraud)]
+         ("fraud-detect-bench-zh",adapt_fraud),
+         ("elderly-accessibility-bench-zh",adapt_elderly)]
 def run_model(cfg):
     bk=make(cfg); res={}
     for name,adapt in BENCHES:
-        d=os.path.join(B,name); data=load_jsonl(os.path.join(d,"data/bench.jsonl"))
+        d=os.path.join(B,name)
+        dfile="data/queries.jsonl" if name=="elderly-accessibility-bench-zh" else "data/bench.jsonl"
+        data=load_jsonl(os.path.join(d,dfile))
         def one(s):
             msgs,parse=adapt(s)
             try: return parse(bk.chat(msgs))
@@ -78,10 +86,10 @@ def main():
         json.dump(table,open(os.path.join(ROOT,"results.json"),"w"),ensure_ascii=False,indent=2)
     L=["# 中文模型横评榜（v0.4）\n",
        "> 各 bench v0.4 种子集（attack 103 / fc 103 / safety 135 / refusal 134），单人标注 + 机器评分，CI 担保；规模化中，分数仅供方法验证参考。\n",
-       "| 模型 | ATT&CK技术F1 | 函数调用完整率 | 函数名准确 | 安全拦截F1 | 注入召回 | 过度拒绝率↓ | 误拒率↓ | 有害漏答↓ | 诈骗gap |",
-       "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
+       "| 模型 | ATT&CK技术F1 | 函数调用完整率 | 函数名准确 | 安全拦截F1 | 注入召回 | 过度拒绝率↓ | 误拒率↓ | 有害漏答↓ | 诈骗gap | 无障碍gap↓ |",
+       "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
     for m,r in table.items():
-        L.append("| {} | {} | {} | {} | {} | {} | {} | {} | {} |".format(m,
+        L.append("| {} | {} | {} | {} | {} | {} | {} | {} | {} | {} | {} |".format(m,
             g(r,"attack-bench-zh","technique_micro","f1"),
             g(r,"zh-function-calling-bench","full_call_accuracy"),
             g(r,"zh-function-calling-bench","function_name_accuracy"),
@@ -90,7 +98,8 @@ def main():
             g(r,"agent-safety-bench-zh","over_refusal_rate"),
             g(r,"defensive-refusal-bench-zh","false_refusal_rate"),
             g(r,"defensive-refusal-bench-zh","harmful_refusal_rate"),
-            g(r,"fraud-detect-bench-zh","detection_gap")))
+            g(r,"fraud-detect-bench-zh","detection_gap"),
+            g(r,"elderly-accessibility-bench-zh","accessibility_gap")))
     open(os.path.join(ROOT,"leaderboard.md"),"w").write("\n".join(L)+"\n")
     print("\n".join(L))
 main()
