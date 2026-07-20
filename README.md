@@ -44,3 +44,6 @@ python3 run_eval.py models.json        # 跑全部模型×全部基准 → leade
 
 ## 诚实声明
 各基准均为 **v1.0 数据集**（attack 300 / fc 300 / safety 500 / refusal 134，单人标注），分数仅供**方法验证**参考，尚非大规模权威结论；规模化进行中。立场：纯防御 / 评测研究。代码 MIT，数据 CC BY 4.0。
+
+## 项目群总报告
+覆盖 6 个仓库的全景、聚合榜、每基准发现、方法论与诚实边界：[PROGRAM-REPORT.md](PROGRAM-REPORT.md)。
